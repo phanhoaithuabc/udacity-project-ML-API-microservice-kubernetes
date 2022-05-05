@@ -1,4 +1,4 @@
-<include a CircleCI status badge, here>
+[![phanhoaithuabc](https://circleci.com/gh/phanhoaithuabc/udacity-project-ML-API-microservice-kubernetes.svg?style=svg)](https://app.circleci.com/pipelines/github/phanhoaithuabc/udacity-project-ML-API-microservice-kubernetes)
 
 ## Project Overview
 
@@ -19,16 +19,63 @@ Your project goal is to operationalize this working, machine learning microservi
 
 You can find a detailed [project rubric, here](https://review.udacity.com/#!/rubrics/2576/view).
 
-CRITERIA => MEETS SPECIFICATIONS
+
+
+
+## Setup the Environment and run the Application
+
+* Create a virtualenv with Python 3.7 and activate it. Refer to this link for help on specifying the Python version in the virtualenv. 
+```bash
+python3 -m pip install --user virtualenv
+# You should have Python 3.7 available in your host. 
+# Check the Python path using `which python3`
+# Use a command similar to this one:
+python3 -m virtualenv --python=<path-to-Python3.7> .devops
+source .devops/bin/activate
+```
+* Run `make install` to install the necessary dependencies
+
+### Running `app.py` to run the Python scripts and web app:
+
+1. Run standalone:  `python app.py`
+2. Run in Docker:  `./run_docker.sh`
+3. Run in Kubernetes:  `./run_kubernetes.sh`
+
+### File in this repository
+
+- `.circleci/config.yaml`: CircleCI config file
+- `model_data/boston_housing_prediction.joblib`: model machine learning 
+- `model_data/housing.csv`: data train model ML
+- `output_txt_files/docker_out.txt`: result predict through docker
+- `output_txt_files/kubernetes_out.txt`: console when run kubernete
+- `app.py`: start the application contain API to predict
+- `Dockerfile`: build docker image of this source
+- `make_prediction.sh`: contain data and script to predict
+- `Makefile`: contain script to set up env, verify code,...
+- `README.md`: explain and instruction of this repo
+- `requirements.txt`: pakage require to run this code 
+- `run_docker.sh`: build and run source code as a docker container
+- `run_kubernetes.sh`: create a cluster to run docker container 
+- `upload_docker.sh`: up load docker image to docker hub
+
+### Kubernetes Steps
+
+* Setup and Configure Docker locally
+* Setup and Configure Kubernetes locally
+* Create Flask app in Container
+* Run via kubectl
+
+## CRITERIA => MEETS SPECIFICATIONS
 
 ### Files Submitted
 
-All files are submitted => The submitted repository includes a .circleci folder, a README.md file, a Dockerfile and Makefile, as well as an app.py file, a prediction script, and the necessary scripts to run and upload a microservice on Docker and Kubernetes.
-There should also be two output text files: docker_out.txt and kubernetes_out.txt that include the log output after a prediction is made, given some sample input data.
+- All files are submitted => The submitted repository includes a .circleci folder, a README.md file, a Dockerfile and Makefile, as well as an app.py file, a prediction script, and the necessary scripts to run and upload a microservice on Docker and Kubernetes.
 
-NOTE: Before submitting a link to your complete, project repository, make sure you have included all required and complete files (including run_kubernetes.sh, run_docker.sh, docker_out.txt, kubernetes_out.txt, and a .circleci build directory).
+- There should also be two output text files: docker_out.txt and kubernetes_out.txt that include the log output after a prediction is made, given some sample input data.
 
-.circleci folder is included => A .circleci folder is included in the Github repository. The directory holds a config.yml that checks the project code for errors. Your project should pass, as indicated by a CircleCI status badge in the repository README.
+- NOTE: Before submitting a link to your complete, project repository, make sure you have included all required and complete files (including run_kubernetes.sh, run_docker.sh, docker_out.txt, kubernetes_out.txt, and a .circleci build directory).
+
+- .circleci folder is included => A .circleci folder is included in the Github repository. The directory holds a config.yml that checks the project code for errors. Your project should pass, as indicated by a CircleCI status badge in the repository README.
 
 ### Code Quality & Enhancement
 
@@ -57,6 +104,7 @@ NOTE: Before submitting a link to your complete, project repository, make sure y
 - An output prediction is saved in kubernetes_out.txt => While running on kubernetes, call make_predictions.sh; the terminal output should be included in your submission as a text file, kubernetes_out.txt.
 
 ### Suggestions to Make Your Project Stand Out!
+
 - Extend the microservice to deliver additional functionality, say an additional prediction.
 - Make the kubernetes deployment work on multiple cloud platforms: i.e. GCP, AWS, and Azure.
 - Record a demo video that shows the scale up and scale down characteristics of the kubernetes application.
@@ -66,32 +114,8 @@ NOTE: Before submitting a link to your complete, project repository, make sure y
 
 ---
 
-## Setup the Environment
 
-* Create a virtualenv with Python 3.7 and activate it. Refer to this link for help on specifying the Python version in the virtualenv. 
-```bash
-python3 -m pip install --user virtualenv
-# You should have Python 3.7 available in your host. 
-# Check the Python path using `which python3`
-# Use a command similar to this one:
-python3 -m virtualenv --python=<path-to-Python3.7> .devops
-source .devops/bin/activate
-```
-* Run `make install` to install the necessary dependencies
-
-### Running `app.py`
-
-1. Standalone:  `python app.py`
-2. Run in Docker:  `./run_docker.sh`
-3. Run in Kubernetes:  `./run_kubernetes.sh`
-
-### Kubernetes Steps
-
-* Setup and Configure Docker locally
-* Setup and Configure Kubernetes locally
-* Create Flask app in Container
-* Run via kubectl
-
+## TODO
 
 ### Task 1: Complete the Dockerfile
 
@@ -188,6 +212,7 @@ Assuming you’ve already built the docker image with ./run_docker.sh, you can n
 If you’ve successfully implemented authentication and tagging, you should see a successful login statement and a repository name that you specified, printed in your terminal. You should also be able to see your image as a repository in your docker hub account.
 
 ### Task 5: Configure Kubernetes to Run Locally
+
 You should have a virtual machine like VirtualBox and minikube installed, as per the project environmet instructions. To start a local cluster, type the terminal command: minikube start.
 
 After minikube starts, a cluster should be running locally. You can check that you have one cluster running by typing kubectl config view where you should see at least one cluster with a certificate-authority and server.
@@ -224,7 +249,8 @@ After running a prediction via Kubernetes deployment, what do you see in your ma
 
 Copy the text output after calling run_kubernetes.sh and paste it into a file kubernetes_out.txt. This will be the second (out of two) text files that are required for submission. This output might look quite different from docker_out.txt; this new file should include your pod’s name and status, as well as the port forwarding and handling text.
 
-Task 7: [Important] Delete Cluster
+### Task 7: [Important] Delete Cluster
+
 After you’re done deploying your containerized application and making test predictions via Kubernetes cluster, you should clean up your resources and delete the kubernetes cluster with a call to minikube delete.
 
 You can also pause your work and save the cluster state with a call to minikube stop.
@@ -232,40 +258,43 @@ You can also pause your work and save the cluster state with a call to minikube 
 Almost Ready for Project Submission
 Now, you are almost ready to submit your project!
 
-Check that you have all complete files
-Push your work to a Github repository
-One last step: CircleCI Integration
-Task 8: CircleCI Integration
+- Check that you have all complete files
+- Push your work to a Github repository
+- One last step: CircleCI Integration
+
+### Task 8: CircleCI Integration
+
 CircleCI is a tool that defines an automated testing environment; getting a CircleCI badge that reads "Passed" on a repository indicates that the project code has passed all lint tests. CircleCI uses a YAML file to identify how you want your testing environment set up and what tests you want to run. On CircleCI 2.0, this file must be called config.yml and must be in a hidden folder called .circleci. On Mac, Linux, and Windows systems, files and folders whose names start with a period are treated as system files that are hidden from users by default.
 
-To create the file and folder on GitHub, click the Create new file button on the repo page and type .circleci/config.yml. You should now have in front of you a blank config.yml file in a .circleci folder.
+- To create the file and folder on GitHub, click the Create new file button on the repo page and type .circleci/config.yml. You should now have in front of you a blank config.yml file in a .circleci folder.
 
-Then you can paste the text from this yaml file into your file, and commit the change to your repository.
+- Then you can paste the text from this yaml file into your file, and commit the change to your repository.
 
-It may help to reference this CircleCI blog post on Github integration.
+- It may help to reference this CircleCI blog post on Github integration.
 
-Setting up and Building a Project
+#### <b> Setting up and Building a Project </b>
+
 To test your repository with CircleCI, you will need a CircleCI account, which you can get via their signup page + clicking "Start with GitHub." Once you have an account, you'll be able to build project using the CircleCI dashboard.
 
 On the dashboard, you will be given the option to set up a new project. To add your new repo, ensure that your GitHub account is selected in the dropdown menu in the upper-left, find the project repository that you've created, and click the Setup project button next to it. You can leave all set up configurations as their default value then click Start building.
 
 You should see your build start to run, and if your project passes the lint tests, you'll see that the project passes!
 
-You can then add a status badge indicating that your project has "Passed" CircleCI tests, by looking at the markdown in the Notifications section of your project’s settings > Status Badges.
-Best practice is to add the badge via markdown into the Github project's README.md file.
-passed status badge
-Task 9: README.md
+- You can then add a status badge indicating that your project has "Passed" CircleCI tests, by looking at the markdown in the Notifications section of your project’s settings > Status Badges.
+- Best practice is to add the badge via markdown into the Github project's README.md file.
+
+### Task 9: README.md
+
 A complete README file should include:
 
-A summary of the project
-Instructions on how to run the Python scripts and web app (simply listing command line calls will suffice), and
-A short explanation of the files in the repository.
+- A summary of the project
+- Instructions on how to run the Python scripts and web app (simply listing command line calls will suffice), and
+- A short explanation of the files in the repository.
+
 The README should also include the "passed" status badge (shown above) at the top of the README.
 
-Project Submission
+## Project Submission
+
 Congratuations, you have successfully containerized and deployed a machine learning application using Kubernetes. And you are ready to submit your complete Github repo!
 
 Check that you’ve passed all rubric items, then go to the next page and submit via a link to your Github repo. After submission, your project will be sent to one of our reviewers, who will give you feedback on your project.
-
-Supporting Materials
-config.yml
