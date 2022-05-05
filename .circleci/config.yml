@@ -41,4 +41,5 @@ jobs:
             chmod +x /bin/hadolint
             . venv/bin/activate
             make install
+            pip install pylint
             make lint 
